@@ -17,8 +17,8 @@ describe("Token contract", function () {
     });
 
     describe("Deployment", function () {
-        // `it` is another Mocha function. This is the one you use to define your
-        // tests. It receives the test name, and a callback function.
+
+        // It receives the test name, and a callback function.
         it("Should assign the total supply of tokens to the owner", async function () {
             const ownerBalance = await hardhatToken.balanceOf(owner.address);
             expect(await hardhatToken.totalSupply()).to.equal(ownerBalance);
@@ -33,7 +33,7 @@ describe("Token contract", function () {
             expect(addr1Balance).to.equal(50);
 
             // Transfer 50 tokens from addr1 to addr2
-            // We use .connect(signer) to send a transaction from another account
+            // use .connect(signer) to send a transaction from another account
             await hardhatToken.connect(addr1).transfer(addr2.address, 50);
             const addr2Balance = await hardhatToken.balanceOf(addr2.address);
             expect(addr2Balance).to.equal(50);
