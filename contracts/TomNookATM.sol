@@ -33,5 +33,40 @@ contract TomNookATM {
         console.log("msg.sender : ", msg.sender);
         accounts[msg.sender].exists = true;
     }
+
+      function deposit(address tokenAddress, uint256 amount) external payable accountExists {
+       
+    }
+
+    function tokenExists(address account, address tokenAddress) internal view returns(bool) {
+       
+    }
+
+    function withdraw(address tokenAddress, uint256 amount) external accountExists {
+
+    }
+
+    function closeAccount() external accountExists {
+        
+    }
+    
+    function getBalance(address account, address tokenAddress) external view accountExists returns(uint256 balance) {
+        
+    } 
+
+    //animal crossing bank system has a stake system
+    function stake() external {
+        
+    } 
+
+     //with miles in animal crossinga villager can buy BuySpecialAssets
+    function buySpecialFornitures() external{
+        
+    } 
+
+     //pay debts to tom
+   function paydebts() external {
+        
+    } 
    
 }
