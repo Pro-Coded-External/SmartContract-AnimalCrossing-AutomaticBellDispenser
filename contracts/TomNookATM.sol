@@ -8,12 +8,15 @@ contract TomNookATM {
     address payable TomNook;
     uint256 TomNook_Debts = 5696000; //biggest house
     uint256 deployDate;
-
-    constructor() {
+    IERC20 miles;
+    IERC20 bell;
+    
+    constructor(address bellToken, address milesToken) {
         TomNook = payable(msg.sender);
         deployDate = block.timestamp;
+        miles = IERC20(milesToken);
+        bell = IERC20(bellToken);
     }
-
     struct Account {
         bool exists;
         address[] currentTokenAddresses;
