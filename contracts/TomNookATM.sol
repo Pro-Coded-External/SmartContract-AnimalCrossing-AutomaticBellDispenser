@@ -7,9 +7,11 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 contract TomNookATM {
     address payable TomNook;
     uint256 TomNook_Debts = 5696000; //biggest house
+    uint256 deployDate;
 
     constructor() {
         TomNook = payable(msg.sender);
+        deployDate = block.timestamp;
     }
 
     struct Account {
@@ -87,7 +89,9 @@ contract TomNookATM {
     }
 
     //animal crossing bank system has a stake system
-    function stake() external {}
+    function interests() external view {
+        require(block.timestamp >= (deployDate + 30 days));
+    }
 
     //with miles in animal crossinga villager can buy BuySpecialAssets
     function buySpecialFornitures() external {}
