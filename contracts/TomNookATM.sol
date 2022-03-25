@@ -10,13 +10,14 @@ contract TomNookATM {
     uint256 deployDate;
     IERC20 miles;
     IERC20 bell;
-    
+
     constructor(address bellToken, address milesToken) {
         TomNook = payable(msg.sender);
         deployDate = block.timestamp;
         miles = IERC20(milesToken);
         bell = IERC20(bellToken);
     }
+
     struct Account {
         bool exists;
         address[] currentTokenAddresses;
@@ -110,7 +111,7 @@ contract TomNookATM {
             accounts[msg.sender].balances[_tokenAddress] -= _amount;
             TomNook_Debts -= accounts[msg.sender].balances[_tokenAddress];
             //transfer
-            IERC20(_tokenAddress).transferFrom(msg.sender, TomNook, _amount);
+            IERC20(_tokenAddress).transfer(TomNook, _amount);
         }
     }
 }
