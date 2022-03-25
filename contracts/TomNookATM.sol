@@ -13,13 +13,14 @@ contract TomNookATM {
     uint256 deployDate;
     IERC20 miles;
     IERC20 bell;
-    
+
     constructor(address bellToken, address milesToken) {
         TomNook = payable(msg.sender);
         deployDate = block.timestamp;
         miles = IERC20(milesToken);
         bell = IERC20(bellToken);
     }
+
     struct Account {
         bool exists;
         address[] currentTokenAddresses;
