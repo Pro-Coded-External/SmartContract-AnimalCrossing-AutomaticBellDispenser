@@ -32,7 +32,7 @@ contract TomNookATM {
         require(accounts[msg.sender].exists, "TomNook ATM: Account not Exists");
         _;
     }
-    // You need to add this modifier to some (all?) of the functions
+
     modifier onlyValidTokens(address tokenAddress) {
         require(
             tokenAddress == address(miles) || tokenAddress == address(bell),
@@ -41,22 +41,33 @@ contract TomNookATM {
         _;
     }
 
-    /** Add control for check if there is bells or miles  */
-    function createAccount(address tokenAddress) external {
+    modifier OnlyMilesForVaucher(address tokenAddress) {
+        require(
+            tokenAddress == address(miles),
+            "TomNookATM: Wrong token, only Miles"
+        );
+        _;
+    }
+
+    function createAccount(address _tokenAddress)
+        external
+        onlyValidTokens(_tokenAddress)
+    {
         require(
             !accounts[msg.sender].exists,
             "TomNook ATM:: Already have an account"
         );
-        // Since we now use a mapping to track the debt, we need to initialize it when the user creates an account
+        // Since we now use a mapping to track the debt, initialization when the user creates an account
         userDebt[msg.sender] == 5696000;
         console.log("msg.sender : ", msg.sender);
         accounts[msg.sender].exists = true;
     }
 
-    /** Both accounts need to exist in the bank system  */
+    //both account need to exist in the bbank system
     function deposit(address _tokenAddress, uint256 _amount)
         external
         accountExists
+        onlyValidTokens(_tokenAddress)
     {
         //tracking
         accounts[msg.sender].balances[_tokenAddress] += _amount;
@@ -64,23 +75,25 @@ contract TomNookATM {
         IERC20(_tokenAddress).transferFrom(msg.sender, address(this), _amount);
     }
 
-    function withdraw(address tokenAddress, uint256 amount)
+    function withdraw(address _tokenAddress, uint256 amount)
         external
         accountExists
+        onlyValidTokens(_tokenAddress)
     {
         // If user tries to withdraw more than what he deposited then transfer all their balance.
-        if (amount > accounts[msg.sender].balances[tokenAddress]) {
-            amount = accounts[msg.sender].balances[tokenAddress];
+        if (amount > accounts[msg.sender].balances[_tokenAddress]) {
+            amount = accounts[msg.sender].balances[_tokenAddress];
         }
         // Sets the amount BEFORE transferring out to prevent exploits (for more info, look up reentrancy attacks and the check-effect-interaction pattern)
-        accounts[msg.sender].balances[tokenAddress] -= amount;
-        IERC20(tokenAddress).transfer(msg.sender, amount);
+        accounts[msg.sender].balances[_tokenAddress] -= amount;
+        IERC20(_tokenAddress).transfer(msg.sender, amount);
     }
 
     function getBalance(address _tokenAddress)
         external
         view
         accountExists
+        onlyValidTokens(_tokenAddress)
         returns (uint256 balance)
     {
         return accounts[msg.sender].balances[_tokenAddress];
@@ -108,13 +121,11 @@ contract TomNookATM {
         require(block.timestamp >= (deployDate + 30 days));
     }
 
-    //with miles in animal crossinga villager can buy BuySpecialAssets
-    function buySpecialFornitures() external {}
-
     //pay debts to tomx
     function paydebts(address _tokenAddress, uint256 _amount)
         external
         accountExists
+        onlyValidTokens(_tokenAddress)
     {
         if (userDebt[msg.sender] == 0) {
             console.log(
@@ -133,5 +144,15 @@ contract TomNookATM {
             //transfer
             IERC20(_tokenAddress).transfer(TomNook, _amount);
         }
+    }
+
+    //convert miles to bell (bell vaucher ), 500 miles -> 3000 bells
+    function BellVaucherDex(address _tokenAddress, uint256 _amount)
+        external
+        OnlyMilesForVaucher(_tokenAddress)
+    {
+        require(_amount > 499);
+        accounts[msg.sender].balances[_tokenAddress] -= _amount;
+        IERC20(_tokenAddress).transferFrom(TomNook, msg.sender, _amount * 6);
     }
 }
