@@ -6,7 +6,10 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract TomNookATM {
     address payable TomNook;
-    uint256 TomNook_Debts = 5696000; //biggest house
+    // You probably want to replace this with an address => uint mapping so the contract can track debts for multiple users 
+    // uint256 TomNook_Debts = 5696000; //biggest house
+    mapping(address => uint256) userDebt;
+
     uint256 deployDate;
     IERC20 miles;
     IERC20 bell;
@@ -29,14 +32,18 @@ contract TomNookATM {
         require(accounts[msg.sender].exists, "TomNook ATM: Account not Exists");
         _;
     }
-
+    // You need to add this modifier to some (all?) of the functions
+    modifier onlyValidTokens(address tokenAddress) {
+        require(tokenAddress == address(miles) || tokenAddress == address(bell), "TomNookATM: Wrong token");
+    }
     /** Add control for check if there is bells or miles  */
     function createAccount(address tokenAddress) external {
         require(
             !accounts[msg.sender].exists,
             "TomNook ATM:: Already have an account"
         );
-        //require(tokenAddress == 0x5FbDB2315678afecb367f032d93F642f64180aa3);
+        // Since we now use a mapping to track the debt, we need to initialize it when the user creates an account
+        userDebt[msg.sender] == 5696000;
         console.log("msg.sender : ", msg.sender);
         accounts[msg.sender].exists = true;
     }
@@ -100,7 +107,7 @@ contract TomNookATM {
     function buySpecialFornitures() external {}
 
     //pay debts to tom
-    function paydebts(address _tokenAddress, uint256 _amount) external {
+    function paydebts(address _tokenAddress, uint256 _amount) external accountExists {
         if (TomNook_Debts == 0) {
             console.log(
                 "extinguished debts! Congratulations ! you have finished paying your home loan !  "
@@ -108,9 +115,15 @@ contract TomNookATM {
         } else {
             //tracking
             accounts[msg.sender].balances[_tokenAddress] -= _amount;
-            TomNook_Debts -= accounts[msg.sender].balances[_tokenAddress];
+            
+            // Focus lmao
+            // TomNook_Debts -= accounts[msg.sender].balances[_tokenAddress];
+            
+            // Correct with the previous implementation (without the mapping)
+            // TomNook_Debts -= _amount;
+            userDebt[msg.sender] -= _amount;
             //transfer
-            IERC20(_tokenAddress).transferFrom(msg.sender, TomNook, _amount);
+            IERC20(_tokenAddress).transfer(TomNook, _amount);
         }
     }
 }
