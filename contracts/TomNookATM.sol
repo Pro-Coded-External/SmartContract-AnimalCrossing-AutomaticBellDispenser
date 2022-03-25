@@ -6,8 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract TomNookATM {
     address payable TomNook;
-    // You probably want to replace this with an address => uint mapping so the contract can track debts for multiple users 
-    // uint256 TomNook_Debts = 5696000; //biggest house
+    // address => uint mapping so the contract can track debts for multiple users
     mapping(address => uint256) userDebt;
 
     uint256 deployDate;
@@ -35,8 +34,13 @@ contract TomNookATM {
     }
     // You need to add this modifier to some (all?) of the functions
     modifier onlyValidTokens(address tokenAddress) {
-        require(tokenAddress == address(miles) || tokenAddress == address(bell), "TomNookATM: Wrong token");
+        require(
+            tokenAddress == address(miles) || tokenAddress == address(bell),
+            "TomNookATM: Wrong token"
+        );
+        _;
     }
+
     /** Add control for check if there is bells or miles  */
     function createAccount(address tokenAddress) external {
         require(
@@ -107,19 +111,22 @@ contract TomNookATM {
     //with miles in animal crossinga villager can buy BuySpecialAssets
     function buySpecialFornitures() external {}
 
-    //pay debts to tom
-    function paydebts(address _tokenAddress, uint256 _amount) external accountExists {
-        if (TomNook_Debts == 0) {
+    //pay debts to tomx
+    function paydebts(address _tokenAddress, uint256 _amount)
+        external
+        accountExists
+    {
+        if (userDebt[msg.sender] == 0) {
             console.log(
-                "extinguished debts! Congratulations ! you have finished paying your home loan !  "
+                "extinguished corredebts! Congratulations ! you have finished paying your home loan !  "
             );
         } else {
             //tracking
             accounts[msg.sender].balances[_tokenAddress] -= _amount;
-            
+
             // Focus lmao
             // TomNook_Debts -= accounts[msg.sender].balances[_tokenAddress];
-            
+
             // Correct with the previous implementation (without the mapping)
             // TomNook_Debts -= _amount;
             userDebt[msg.sender] -= _amount;
