@@ -41,9 +41,9 @@ contract TomNookATM {
         _;
     }
 
-    modifier OnlyMilesForVaucher(address tokenAddress) {
+    modifier OnlyMilesForVaucher(address _tokenAddressMiles) {
         require(
-            tokenAddress == address(miles),
+            _tokenAddressMiles == address(miles),
             "TomNookATM: Wrong token, only Miles"
         );
         _;
@@ -118,10 +118,10 @@ contract TomNookATM {
 
     //animal crossing bank system has a stake system
     function interests() external view {
-        require(block.timestamp >= (deployDate + 30 days));
+        //require(block.timestamp >= (deployDate + 30 days));
     }
 
-    //pay debts to tomx
+    //pay debts to mr TomNook
     function paydebts(address _tokenAddress, uint256 _amount)
         external
         accountExists
@@ -134,25 +134,23 @@ contract TomNookATM {
         } else {
             //tracking
             accounts[msg.sender].balances[_tokenAddress] -= _amount;
-
-            // Focus lmao
-            // TomNook_Debts -= accounts[msg.sender].balances[_tokenAddress];
-
-            // Correct with the previous implementation (without the mapping)
-            // TomNook_Debts -= _amount;
             userDebt[msg.sender] -= _amount;
-            //transfer
             IERC20(_tokenAddress).transfer(TomNook, _amount);
         }
     }
 
     //convert miles to bell (bell vaucher ), 500 miles -> 3000 bells
-    function BellVaucherDex(address _tokenAddress, uint256 _amount)
-        external
-        OnlyMilesForVaucher(_tokenAddress)
-    {
-        require(_amount > 499);
-        accounts[msg.sender].balances[_tokenAddress] -= _amount;
-        IERC20(_tokenAddress).transferFrom(TomNook, msg.sender, _amount * 6);
+    function BellVaucherDex(
+        address _tokenAddressBels,
+        address _tokenAddressMiles,
+        uint256 _amount
+    ) external OnlyMilesForVaucher(_tokenAddressMiles) {
+        accounts[msg.sender].balances[_tokenAddressMiles] -= _amount;
+        IERC20(_tokenAddressBels).transferFrom(
+            TomNook,
+            msg.sender,
+            _amount * 6
+        );
+        accounts[msg.sender].balances[_tokenAddressBels] += _amount * 6;
     }
 }
