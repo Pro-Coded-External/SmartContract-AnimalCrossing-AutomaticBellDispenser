@@ -83,7 +83,7 @@ Mortgages are the number of Bells that the player owes Tom Nook for constructing
 
 <div align="center">
   <a>
-    <img  border-radius= 50 src="https://static3.srcdn.com/wordpress/wp-content/uploads/2020/11/Animal-Crossing-New-Horizons-Home-Storage.jpg" width="400" height="200">
+    <img src="https://static3.srcdn.com/wordpress/wp-content/uploads/2020/11/Animal-Crossing-New-Horizons-Home-Storage.jpg" width="350" height="210">
   </a>
 </div>
 <br>
@@ -119,8 +119,8 @@ The Bell voucher is a new redeemable item in New Horizons. They can be redeemed 
 
 <div align="center">
   <a>
-    <img  border-radius= 50 src="https://cdn.guidestash.com/wp-content/uploads/2020/05/08224922/Bell-Voucher.jpg" width="400" height="200">
-    <img  border-radius= 50 src="https://zephyrnet.com/wp-content/uploads/2020/05/how-to-use-bell-vouchers-animal-crossing-new-horizons-2.jpg" width="400" height="200">
+    <img src="https://cdn.guidestash.com/wp-content/uploads/2020/05/08224922/Bell-Voucher.jpg" width="350" height="210">
+    <img src="https://zephyrnet.com/wp-content/uploads/2020/05/how-to-use-bell-vouchers-animal-crossing-new-horizons-2.jpg" width="350" height="210">
   </a>
 </div>
 <br>
@@ -141,8 +141,9 @@ The Bell voucher is a new redeemable item in New Horizons. They can be redeemed 
 interest is deposited into the player's savings on the first of each month 0.5% (0.05% in New Horizons). The ABD was first added in City Folk, and has appeared in all main series games since then.
 
 <div align="center">
-  <a>
-    <img  border-radius= 50 src="https://animalcrossingworld.com/wp-content/uploads/2020/04/animal-crossing-new-horizons-bank-of-nook-savings-account-interest-rate-reduction.jpg" width="350" height="200">
+  <a>  
+    <img src="https://animalcrossingworld.com/wp-content/uploads/2020/04/animal-crossing-new-horizons-bank-of-nook-savings-account-interest-rate-reduction.jpg" width="350" height="210">
+   <img  src="https://oyster.ignimgs.com/mediawiki/apis.ign.com/animal-crossing-new-horizons/0/04/Animal_crossing_new_horizons_abd_nook_stop.png?width=1280" width="350" height="210">
   </a>
 </div>
 <br>
