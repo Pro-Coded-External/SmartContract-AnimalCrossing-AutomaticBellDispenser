@@ -126,7 +126,19 @@ The Bell voucher is a new redeemable item in New Horizons. They can be redeemed 
 <br>
 
 ```solidity
-   Work in progress
+  function BellVaucherDex(
+        address _tokenAddressBels,
+        address _tokenAddressMiles,
+        uint256 _amount
+    ) external OnlyMilesForVaucher(_tokenAddressMiles) {
+        accounts[msg.sender].balances[_tokenAddressMiles] -= _amount;
+        IERC20(_tokenAddressBels).transferFrom(
+            TomNook,
+            msg.sender,
+            _amount * 6
+        );
+        accounts[msg.sender].balances[_tokenAddressBels] += _amount * 6;
+    }
   ```
 ---
 ### Automatic Bell Dispenser
