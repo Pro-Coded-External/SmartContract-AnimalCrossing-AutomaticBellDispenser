@@ -18,7 +18,7 @@
  
 
 ## About The Project
-This project is composed by smart contracts that simulate Animal Crossing banking system, Animal Crossing is a social simulation video game series developed and published by Nintendo, where the user can buy and sell having also a bank account.We created smart contracts for 2 tokens inside the game, Bell & Miles (ERC20 standards), and 1 contract to simulate all game's functionalities. We also adding a script for deploy them and tests (obviously).
+This project is composed by smart contracts that simulate Animal Crossing banking system, Animal Crossing is a social simulation video game series developed and published by Nintendo, where the user can buy and sell things having a bank account.We created smart contracts for 2 tokens inside the game, Bell & Miles (ERC20 standards), and 1 contract to simulate all game's functionalities. We also adding a script for deploy them and tests (obviously).
 
 ## Built With
 * [Solidity](https://docs.soliditylang.org/en/v0.8.13/) 
