@@ -91,25 +91,22 @@ Mortgages are the number of Bells that the player owes Tom Nook for constructing
 ```solidity
    
     address payable TomNook;
-    // address => uint mapping so the contract can track debts for multiple users
     mapping(address => uint256) userDebt;
     
-    function paydebts(address _tokenAddress, uint256 _amount)
-        external
-        accountExists
-        onlyValidTokens(_tokenAddress)
-    {
+    function payDebts(uint256 _amount) external accountExists {
         if (userDebt[msg.sender] == 0) {
             console.log(
                 "extinguished corredebts! Congratulations ! you have finished paying your home loan !  "
             );
         } else {
             //tracking
-            accounts[msg.sender].balances[_tokenAddress] -= _amount;
+            claimInterests();
+            accounts[msg.sender].balances[address(bell)] -= _amount;
             userDebt[msg.sender] -= _amount;
-            IERC20(_tokenAddress).transfer(TomNook, _amount);
+            bell.transfer(TomNook, _amount);
         }
     }
+
   ```
 
 ---
@@ -126,18 +123,9 @@ The Bell voucher is a new redeemable item in New Horizons. They can be redeemed 
 <br>
 
 ```solidity
-  function BellVaucherDex(
-        address _tokenAddressBels,
-        address _tokenAddressMiles,
-        uint256 _amount
-    ) external OnlyMilesForVaucher(_tokenAddressMiles) {
-        accounts[msg.sender].balances[_tokenAddressMiles] -= _amount;
-        IERC20(_tokenAddressBels).transferFrom(
-            TomNook,
-            msg.sender,
-            _amount * 6
-        );
-        accounts[msg.sender].balances[_tokenAddressBels] += _amount * 6;
+    function BellVaucherDex(uint256 _amount) external {
+        accounts[msg.sender].balances[address(miles)] -= _amount; 
+        bell.transferFrom(TomNook, msg.sender, _amount * 6);
     }
   ```
 ---
@@ -154,7 +142,14 @@ interest is deposited into the player's savings on the first of each month 0.5% 
 <br>
 
 ```solidity
-    work in progress 
+
+    function claimInterests() public {
+        uint256 rate = ((block.timestamp -
+            accounts[msg.sender].timestampForInterests) * 100) / 1 days;
+        uint256 interests = (accounts[msg.sender].balances[address(bell)] *
+            rate) / 600_000;   
+        bell.transferFrom(TomNook, msg.sender, interests);
+    }
   ```
   
 ## Other Functionalities Added
