@@ -1,8 +1,9 @@
 
 
 const { expect } = require("chai");
+const { ethers } = require("hardhat");
 
-describe("Token contract", function () {
+describe("TomNook ATM contract", function () {
 
     let Token;
     let hardhatToken;
@@ -13,19 +14,20 @@ describe("Token contract", function () {
 
 
     beforeEach(async function () {
-        Token = await ethers.getContractFactory("TomNookATM");
+        TomNookATM = await ethers.getContractFactory("TomNookATM");
+        const BELL = await ethers.getContractFactory("Bell");
+        const MILES = await ethers.getContractFactory("Miles");
         [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
-        hardhatToken = await Token.deploy();
+        const Bell = await BELL.deploy();
+        const Miles = await MILES.deploy();
+        hardhatToken = await TomNookATM.deploy(Bell.address, Miles.address);
     });
 
 
     describe("Account Creation", function () {
-
-        const tokenAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
-
         it("should created a new Villager account", async () => {
-            await hardhatToken.connect(addr1).createAccount(tokenAddress);
-            await expect(hardhatToken.connect(addr1).createAccount(tokenAddress)).to.be.revertedWith(
+            await hardhatToken.connect(addr1).createAccount();
+            await expect(hardhatToken.connect(addr1).createAccount()).to.be.revertedWith(
                 "TomNook ATM:: Already have an account"
             );
         });
